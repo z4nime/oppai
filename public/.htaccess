@@ -1,0 +1,40 @@
+RewriteEngine on
+RewriteRule ^home$ index.html
+#----------------------------------------------#
+DirectoryIndex entersite.html
+
+#----------------------------------------------#
+#private
+ErrorDocument 403 errors/403.html
+#error
+ErrorDocument 404 errors/404.html
+ErrorDocument 500 errors/500.html
+
+#----------------------------------------------#
+#เปลี่ยน URL จาก product.php?id=12 เป็น product-12.html
+#RewriteRule ^product-([0-9]+)\.html$ product.php?id=$1
+#เปลี่ยน URL จาก product.php?id=12 เป็น product/ipod-nano/12.html
+#RewriteRule ^product/([a-zA-Z0-9_-]+)/([0-9]+)\.html$ product.php?id=$2
+#----------------------------------------------#
+#เปลี่ยน URL จาก yoursite.com/user.php?username=xyz เป็น yoursite.com/xyz
+#RewriteRule ^([a-zA-Z0-9_-]+)$ user.php?username=$1
+#RewriteRule ^([a-zA-Z0-9_-]+)/$ user.php?username=$1
+#----------------------------------------------#
+#หลีกเลี่ยง directory listing
+#Options -Indexes OR IndexIgnore *
+#----------------------------------------------#
+#hange Charset and Language headers
+AddDefaultCharset UTF-8
+DefaultLanguage en-US
+#----------------------------------------------#
+# Set Timezone of the Server (GMT)
+SetEnv TZ Asia/Bangkok
+#----------------------------------------------#
+#ถ้าคุณต้องการที่จะเพิ่มระดับความปลอดภัยให้กับระบบคุณ คุณสามารถเพิ่มโค้ดเพียงไม่กี่บรรทัดนี้ เพื่อตรวจสอบ url ที่แปลกๆที่มีพิรุทเสี่ยงจะเป็นอัตราย
+# proc/self/environ? noway!
+RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+# Block out any script trying to set a mosConfig value through the URL
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+# Block out any script trying to base64_encode crap to send via URL
+RewriteCond %{QUERY_STRING} base64_encode.*(.*) [OR]
+# Block out any script that includes a
