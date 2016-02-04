@@ -8,13 +8,25 @@ var nodemon = require('gulp-nodemon');
 gulp.task('default', ['browser-sync']);
 
 gulp.task('browser-sync', ['nodemon'], function() {
-	browserSync.init(null, {
-		proxy: "http://localhost:3000",
-        files: ["public/*.*"],
-        browser: "google chrome",
-        port: 3000
-	});
+	// browserSync.init(null, {
 
+	// 	proxy: "http://localhost:3000",
+ //        files: ["/public/*.*"],
+ //        browser: "google chrome",
+ //        port: 3000
+	// });
+	browserSync.init({
+		server: {
+	        baseDir: "./public",
+    		index: "entersite.html"
+	    },port:3000
+    });
+    gulp.watch([
+	    'public/*.html',
+	    'public/css/*.css',
+	    'public/js/*.js',
+	    'public/img/*'
+  	]).on('change', browserSync.reload);
 });
 gulp.task('nodemon', function (cb) {
 	
