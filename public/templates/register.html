@@ -1,0 +1,25 @@
+      <div id="content">
+        
+        <div class="row">
+          <div class="col-md-12 col-xs-12">
+            Register
+            <form ng-show="!userinfo">
+              <div class="form-group">
+                Oppai Name 
+                <input type="text" class="form-control" ng-model="oppai_name" placeholder="Oppai">
+              </div>
+              <div class="form-group">
+                Email address
+                <input type="text" class="form-control" ng-model="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                Password
+                <input type="password" class="form-control" ng-model="password" placeholder="Password">
+              </div>
+              <button type="submit" class="btn  btn-block btn-success" ng-click="register(oppai_name,email,password);">Register</button>
+              <button type="submit" class="btn  btn-block btn-primary" ng-click="back()">Cancle</button>
+              
+            </form>
+        </div><!-- end row -->
+      </div><!-- end content -->
+    

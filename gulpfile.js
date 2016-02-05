@@ -5,9 +5,9 @@ var browserSync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
 
 
-gulp.task('default', ['browser-sync']);
+gulp.task('default', ['serve']);
 
-gulp.task('browser-sync', ['nodemon'], function() {
+gulp.task('serve', ['nodemon'], function() {
 	// browserSync.init(null, {
 
 	// 	proxy: "http://localhost:3000",
@@ -18,7 +18,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
 	browserSync.init({
 		server: {
 	        baseDir: "./public",
-    		index: "entersite.html"
+    		//index: "entersite.html"
 	    },port:3000
     });
     gulp.watch([
