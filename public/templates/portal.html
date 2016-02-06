@@ -1,104 +1,100 @@
-      <div id="content"  data-ng-init="init()">
-        <div class="noti">Oppai Notification : {{greeting}}</div>
-        <div class="row">
-          <div class="col-md-2 col-xs-2">
-            Member Zone
-            <form ng-show="!userinfo">
-              <div class="form-group">
-                Email address
-                <input type="email" class="form-control" ng-model="email" placeholder="Email">
-              </div>
-              <div class="form-group">
-                Password
-                <input type="password" class="form-control" ng-model="password" placeholder="Password">
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" ng-model="remember"><small> Remember </small>
-                </label>
-              </div>
-              <p class="text-center">
-                <small>
-                  <a href="#/register">Register</a>
-                  <em>Forget password?</em>
-                </small>
-              </p>
-              
-              <button type="submit" class="btn  btn-block btn-primary" ng-click="login(email,password);">L o g i n</button>
-              <p class="text-center text-danger"><em><small>{{ message }}</small></em></p>
-            </form>
-            <div ng-show="userinfo" class="text-center">
-              <img ng-src="{{avatar}}" class="img-circle avatar">
-              <p class="bg-primary">
-                <small>{{name}}</small>
-              </p>
-              <p class="bg-success" ng-show="backend >=4">
-                <small><a href="#/backend">ระบบแอดมิน</a></small>
-              </p>
-              <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="logout()">L o g o u t</button>
-            </div>
+<div id="content"  data-ng-init="init()">
+  <div class="noti">Oppai Notification : {{greeting}}</div>
+  <div class="row">
+    <div class="col-md-2 col-xs-2">
+      Member Zone
+      <form ng-show="!userinfo">
+        <div class="form-group">
+          Email address
+          <input type="email" class="form-control" ng-model="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+          Password
+          <input type="password" class="form-control" ng-model="password" placeholder="Password" required>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="remember"><small> Remember </small>
+          </label>
+        </div>
+        <p class="text-center">
+          <small>
+            <a href="#/register">Register</a>
+            <em>Forget password?</em>
+          </small>
+        </p>
+        <button type="submit" class="btn  btn-block btn-primary" ng-click="login(email,password);">L o g i n</button>
+          <p class="text-center text-danger"><em><small>{{ message }}</small></em></p>
+      </form>
+      <div ng-show="userinfo" class="text-center">
+        <img ng-src="{{avatar}}" class="img-circle avatar">
+        <p class="bg-primary">
+          <small>{{name}}</small>
+        </p>
+        <p class="bg-success" ng-show="backend >=4">
+          <small><a href="#/backend">ระบบแอดมิน</a></small>
+        </p>
+        <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="logout()">L o g o u t</button>
+      </div>
 
-            <hr>
-            Anime Fall 2016
-          </div>
-          <div class="col-md-10 col-xs-10">
-            New Update Manga
-            <br> <br> <br> <br> <br> <br> <br> <br> 
-            <hr>
-            New Update Anime
-            <br> <br> <br> <br> <br> <br> <br> <br> 
-          </div>
-
-          <div class="col-md-8 col-xs-8">
-            <hr>
-            Chatbox
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <hr>
-            Youtube
-            <br>
-            <!--iframe width="370" height="200" src="https://www.youtube.com/embed/YM0B7BPHif8?" frameborder="0" allowfullscreen></iframe-->
-          </div>
-          <div class="col-md-12 col-xs-12">
-            <hr>
-            Anime 2016
-          </div>
-          <div class="col-md-8 col-xs-8">
-            <hr>
-            Cosplay
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <hr>
-            Shop
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <hr>
-            facebook
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <hr>
-            twitter
-          </div>
-          <div class="col-md-4 col-xs-4">
-            <hr>
-            google+
-          </div>
-          <div class="col-md-12 col-xs-12">
-            <hr>
-            <div class="foot" style="float:right;">
-              
-              <div class="one">Home</div>
-              <div class="two">Anime</div>
-              <div class="thee">Manga</div>
-              <div class="four">Music</div>
-              <div class="five">Pixoppai</div>
-              <div class="six">Game</div>
-              <div class="seven">Hentai</div>
-              <div class="white">Fansub</div>
-              <div class="white">Feedback</div>
-
-            </div>
-          </div>
-        </div><!-- end row -->
-      </div><!-- end content -->
+      <hr>
+      Anime Fall 2016
+    </div>
+    <div class="col-md-10 col-xs-10">
+      New Update Manga
+      <br> <br> <br> <br> <br> <br> <br> <br> 
+      <hr>
+      New Update Anime
+      <br> <br> <br> <br> <br> <br> <br> <br> 
+    </div>
+    <div class="col-md-8 col-xs-8">
+      <hr>
+        Chatbox
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <hr>
+      Youtube
+      <br>
+      <!--iframe width="370" height="200" src="https://www.youtube.com/embed/YM0B7BPHif8?" frameborder="0" allowfullscreen></iframe-->
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <hr>
+      Anime 2016
+    </div>
+    <div class="col-md-8 col-xs-8">
+      <hr>
+      Cosplay
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <hr>
+      Shop
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <hr>
+      facebook
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <hr>
+      twitter
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <hr>
+      google+
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <hr>
+      <div class="foot" style="float:right;"> 
+        <div class="one">Home</div>
+        <div class="two">Anime</div>
+        <div class="thee">Manga</div>
+        <div class="four">Music</div>
+        <div class="five">Pixoppai</div>
+        <div class="six">Game</div>
+        <div class="seven">Hentai</div>
+        <div class="white">Fansub</div>
+        <div class="white">Feedback</div>
+      </div>
+    </div>
+  </div><!-- end row -->
+</div><!-- end content -->
     
