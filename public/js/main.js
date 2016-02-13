@@ -39,6 +39,7 @@ app.controller('cookie', ['$scope', 'ipCookie', function($scope, ipCookie) {
 }]);
 app.controller('Register',function($scope,$http,$state){
 	$scope.register = function(name,email,password){
+		var hashPassword = calcSHA1(password);
 		if (email == "" || email == null)
 	    	$scope.message = "please input email";
 	    else if (password == "" || password == null)
@@ -46,7 +47,7 @@ app.controller('Register',function($scope,$http,$state){
 	    else if (name == "" || name == null)
 	    	$scope.message = "please input oppai name";
 	    else{
-			$http.post(server+"/api/member/register/"+name+"/"+email+"/"+password)
+			$http.post(server+"/api/member/register/"+name+"/"+email+"/"+hashPassword)
 			.then(function successCallback(response) {
 			
 			}, function errorCallback(response) {
@@ -73,6 +74,7 @@ app.controller('Index',function($scope,$http) {
 		
 	}
     $scope.login = function(email,password){
+    	var hashPassword = calcSHA1(password);
 		if (email == "" || email == null)
 	    	$scope.message = "please input email"
 	    else if (password == "" || password == null)
