@@ -253,3 +253,12 @@ nav div:hover{
   width:140px;
   height:140px;
 }
+.err{
+  border: 1px solid rgb(255, 0, 0);
+}
+.success{
+  border: 1px solid rgb(122, 255, 0);
+}
+.default{
+  border: 1px solid #ccc;
+}

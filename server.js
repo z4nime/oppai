@@ -1,16 +1,11 @@
-'use strict';
+//'use strict';
 
 // simple express server
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var cors = require('cors');
-// var bodyParser = require('body-parser');
-
-var corsOptions = {
-  origin: 'http://www.example.com'
-};
-
+var bodyParser = require('body-parser');
 
 var db_config = {
   	host: 'localhost',
@@ -18,14 +13,44 @@ var db_config = {
     password: '',
     database: 'anime'
 };
-
-//app.use(cors());
+var corsOptions = {
+  origin: 'http://example.com'
+};
+app.use(cors(corsOptions));
 app.use('/', express.static('public'));
-// parse application/json
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//     extended: true
-// }));
+//parse application/json
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.get('/api/users/', function(req, res,next) {
+	db.query('select * from user', function(err, rows, fields) {
+	  	if (err) throw err;
+		  //res.send("data");
+		  res.json(rows);
+
+	});
+});
+app.get('/api/users/:name', function(req, res,next) {
+	db.query("select * from user where name='"+req.params.name+"'", function(err, rows, fields) {
+	  	if (!req.params) 
+	 		return res.sendStatus(400);
+	 	else res.json(rows);
+
+	});
+});
+
+app.post('/api/users/register/:oppai_name/:email/:password',function(req, res) {
+	db.query("insert user set name='"+req.params.oppai_name+"', email='"+req.params.email+"', password='"+req.params.password+"' , avatar='http://data.whicdn.com/images/175676560/superthumb.jpg' , permission=1", function(err, rows, fields) {
+	 	var data = {"name" : req.params.oppai_name , "email" : req.params.email , "password" : req.params.password};
+	 	if (!req.params) 
+	 		return res.sendStatus(400);
+	 	else res.json(data);
+	});
+	
+});
+
 
 var db;
 function handleDisconnect() {
@@ -50,24 +75,5 @@ function handleDisconnect() {
 
 handleDisconnect();
 
-
-
-app.get('/api/member/',function(req, res) {
-	db.query('select * from user', function(err, rows, fields) {
-	  	if (err) throw err;
-		  //res.send("data");
-		  res.json(rows);
-
-	});
-	
-});
-app.post('/api/member/register/:oppai_name/:email/:password',function(req, res) {
-	db.query("insert user set name='"+req.params.oppai_name+"', email='"+req.params.email+"', password='"+req.params.password+"' , avatar='http://data.whicdn.com/images/175676560/superthumb.jpg' , permission=1", function(err, rows, fields) {
-	 	if (!req.params) return res.sendStatus(400);
-	});
-	
-});
-
-
-app.listen(8000); 
-//console.log("Server on port : 8000")
+app.listen(3000); 
+console.log("Server on port : 3000")

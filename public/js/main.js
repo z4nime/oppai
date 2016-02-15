@@ -31,15 +31,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
   
 });
-app.controller('cookie', ['$scope', 'ipCookie', function($scope, ipCookie) {
-  // your code here
-  ipCookie("testCookie", "data", { expires: 15 });
-  console.log(ipCookie("testCookie"));
-  //ipCookie.remove(key);
-}]);
-app.controller('Register',function($scope,$http,$state){
+app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($scope, $http, $state, ipCookie) {
+
+	$scope.checkOppainame = function(name){
+		$http.get(server+"/api/users/"+name)
+		.success(function(data){
+			if(name==undefined)
+				$scope.Pass = 'default';
+			else if (data == "" || data == null)
+				$scope.Pass = true;
+			else if (data != "" || data != null)
+				$scope.Pass = false;
+		});
+	};
 	$scope.register = function(name,email,password){
 		var hashPassword = calcSHA1(password);
+		var data = {};
 		if (email == "" || email == null)
 	    	$scope.message = "please input email";
 	    else if (password == "" || password == null)
@@ -49,13 +56,15 @@ app.controller('Register',function($scope,$http,$state){
 	    else{
 			$http.post(server+"/api/member/register/"+name+"/"+email+"/"+hashPassword)
 			.then(function successCallback(response) {
-			
+				data = response.data;
 			}, function errorCallback(response) {
 			
 			});
 			$scope.message = "Register successful please wait redirect. . .";
 			setTimeout(function () {
 	          	$scope.$apply(function () {
+					ipCookie("cookieLogin", calcSHA1(data), { expires: 15 });
+					//ipCookie.remove(key);
 	              	$state.go("/");
 	          	});
 	      	}, 3000);
@@ -65,7 +74,7 @@ app.controller('Register',function($scope,$http,$state){
 	$scope.back = function(){
 		window.history.back();
 	}
-});
+}]);
 app.controller('Index',function($scope,$http) {
 	$scope.init = function(){
 	    $scope.greeting = 'Welcome!';
