@@ -4,9 +4,6 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
 
-
-gulp.task('default', ['serve']);
-
 gulp.task('serve', ['nodemon'], function() {
 	browserSync.init(null, {
 		proxy: "http://localhost:8000",
@@ -42,3 +39,5 @@ gulp.task('nodemon', function (cb) {
 		} 
 	});
 });
+
+gulp.task('default', ['serve']);

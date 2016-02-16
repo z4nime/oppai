@@ -1,20 +1,20 @@
-<div id="content"  data-ng-init="init()">
-  <div class="noti">Oppai Notification : {{greeting}}</div>
+<div id="content"  data-ng-init="ctrl.init()">
+  <div class="noti">Oppai Notification : {{ctrl.greeting}}</div>
   <div class="row">
     <div class="col-md-2 col-xs-2">
       Member Zone
-      <form ng-show="!userinfo" >
+      <form ng-show="!ctrl.userinfo" ng-submit="ctrl.login(data)">
         <div class="form-group">
           Email address
-          <input type="email" class="form-control" ng-model="email" placeholder="Email" required>
+          <input type="email" class="form-control" ng-class="{'success' : emailPass==true , 'err' : emailPass==false , 'default' : emailPass=='default'}" ng-model="data.email" placeholder="Email" required>
         </div>
         <div class="form-group">
           Password
-          <input type="password" class="form-control" ng-model="password" placeholder="Password" required>
+          <input type="password" class="form-control" ng-class="{'success' : passwordPass==true , 'err' : passwordPass==false , 'default' : passwordPass=='default'}" ng-model="data.password" placeholder="Password" required>
         </div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" ng-model="remember"><small> Remember </small>
+            <input type="checkbox" ng-checked="remember" ng-model="remember"><small> Remember </small>
           </label>
         </div>
         <p class="text-center">
@@ -24,12 +24,12 @@
           </small>
         </p>
         <button type="submit" class="btn  btn-block btn-primary" ng-click="login(email,password);">L o g i n</button>
-          <p class="text-center text-danger"><em><small>{{ message }}</small></em></p>
+          <p class="text-center text-danger"><em><small>{{ ctrl.message }}</small></em></p>
       </form>
-      <div ng-show="userinfo" class="text-center">
-        <img ng-src="{{avatar}}" class="img-circle avatar">
+      <div ng-show="ctrl.userinfo" class="text-center">
+        <img ng-src="{{ctrl.avatar}}" class="img-circle avatar">
         <p class="bg-primary">
-          <small>{{name}}</small>
+          <small>{{ctrl.name}}</small>
         </p>
         <p class="bg-success" ng-show="backend >=4">
           <small><a href="#/backend">ระบบแอดมิน</a></small>

@@ -1,8 +1,5 @@
 var app = angular.module('main', ['ui.router','ipCookie'])
-var server = "http://localhost:3000";
 app.config(function($stateProvider, $urlRouterProvider) {
-  //
-  // For any unmatched url, redirect to /state1
   $urlRouterProvider.otherwise("/");
   //
   // Now set up the states
@@ -15,13 +12,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('/', {
       url: "/",
       templateUrl: "./templates/portal.html",
-      controller: 'Index'
+      controller: 'Index as ctrl'
     })
 	$stateProvider
     .state('register', {
       url: "/register",
       templateUrl: "./templates/register.html",
-      controller: 'Register'
+      controller: 'Register as ctrl'
     })
    	$stateProvider
     .state('backend', {
@@ -32,39 +29,56 @@ app.config(function($stateProvider, $urlRouterProvider) {
   
 });
 app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($scope, $http, $state, ipCookie) {
-
-	$scope.checkOppainame = function(name){
-		$http.get(server+"/api/users/"+name)
+	var ctrl = this;
+	ctrl.checkOppainame = function(oppai_name){
+		$http.get("/api/users/")
 		.success(function(data){
-			if(name==undefined)
-				$scope.Pass = 'default';
-			else if (data == "" || data == null)
-				$scope.Pass = true;
-			else if (data != "" || data != null)
-				$scope.Pass = false;
+			if(oppai_name==undefined)
+				$scope.namePass = 'default';
+			else{
+				for(var i=0;i<data.length;i++){
+					if(oppai_name==data[i].oppai_name)
+						$scope.namePass = false;
+					else
+						$scope.namePass = true;
+				}
+			}
 		});
 	};
-	$scope.register = function(name,email,password){
-		var hashPassword = calcSHA1(password);
-		var data = {};
-		if (email == "" || email == null)
+	ctrl.checkEmail = function(email){
+		$http.get("/api/users/")
+		.success(function(data){
+			if(email==undefined)
+				$scope.emailPass = 'default';
+			else{
+				for(var i=0;i<data.length;i++){
+					if(email==data[i].email)
+						$scope.emailPass = false;
+					else
+						$scope.emailPass = true;
+				}
+			}
+		});
+	};
+	ctrl.Register = function(data){
+		var hashPassword = calcSHA1(data.password);
+		if (data.email == "" || data.email == null)
 	    	$scope.message = "please input email";
-	    else if (password == "" || password == null)
+	    else if (data.password == "" || data.password == null)
 	        $scope.message = "please input password";
-	    else if (name == "" || name == null)
+	    else if (data.oppai_name == "" || data.oppai_name == null)
 	    	$scope.message = "please input oppai name";
 	    else{
-			$http.post(server+"/api/member/register/"+name+"/"+email+"/"+hashPassword)
+			$http.post("/api/users/register/",data)
 			.then(function successCallback(response) {
-				data = response.data;
+				//console.log(response.data)
 			}, function errorCallback(response) {
 			
 			});
 			$scope.message = "Register successful please wait redirect. . .";
 			setTimeout(function () {
 	          	$scope.$apply(function () {
-					ipCookie("cookieLogin", calcSHA1(data), { expires: 15 });
-					//ipCookie.remove(key);
+					ipCookie("cookieLogin", data, { expires: 15 });
 	              	$state.go("/");
 	          	});
 	      	}, 3000);
@@ -75,24 +89,80 @@ app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($
 		window.history.back();
 	}
 }]);
-app.controller('Index',function($scope,$http) {
-	$scope.init = function(){
-	    $scope.greeting = 'Welcome!';
+
+app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($scope,$http,$state,ipCookie) {
+	var ctrl = this;
+
+	ctrl.init = function(){
+	    ctrl.greeting = 'Welcome!';
+	    $scope.remember = true;
+	    if(ipCookie("cookieLogin"))
+	    {
+	    	$http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
+	    	.success(function(data){
+	    		ctrl.userinfo = true;
+	    		ctrl.name = data[0].oppai_name;
+	    		ctrl.avatar = data[0].avatar;
+	    		$state.go("/");
+	    	})
+	    }
 	}
-	$scope.load = function(){
-		
-	}
-    $scope.login = function(email,password){
-    	var hashPassword = calcSHA1(password);
-		if (email == "" || email == null)
-	    	$scope.message = "please input email"
-	    else if (password == "" || password == null)
-	        $scope.message = "please input password"
-	    else{
-		    	
-		}
+    ctrl.login = function(data){
+    	var hashPassword = calcSHA1(data.password);
+		$http.post("/api/login/",data)
+		.then(function successCallback(response) {
+			if(response.data[0] != undefined)
+			{
+				if(response.data[0].password == hashPassword)
+				{
+					if($scope.remember === true)
+					{
+						ctrl.userinfo = true;
+	    				ctrl.name = response.data[0].oppai_name;
+	    				ctrl.avatar = response.data[0].avatar;
+	    				ipCookie("cookieLogin", response.data[0], { expires: 15 });
+	    			}
+	    			else
+	    			{
+	    				ctrl.userinfo = true;
+	    				ctrl.name = response.data[0].oppai_name;
+	    				ctrl.avatar = response.data[0].avatar;
+	    			}
+				}
+				else
+				{
+					$scope.data.password = null;
+					$scope.passwordPass = false;
+					$scope.emailPass = true;
+					setTimeout(function () {
+			          	$scope.$apply(function () {
+							$scope.passwordPass = 'default';
+			          	});
+			      	}, 2000);
+				}
+			}
+			else
+			{
+				$scope.emailPass = false;
+				$scope.data.password = null;
+				$scope.data.email = null;
+				setTimeout(function () {
+			        $scope.$apply(function () {
+						$scope.emailPass = 'default';
+			        });
+			    }, 2000);
+			}
+
+			
+		}, function errorCallback(response) {
+			console.log(response.message)
+		});
 	}
 	$scope.logout = function(){
-		
+		ctrl.userinfo = false;
+		ctrl.name = null;
+		ctrl.avatat = null;
+		ipCookie.remove("cookieLogin");
+		$state.go("/");
 	}
-});
+}]);
