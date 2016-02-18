@@ -24,26 +24,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
     .state('backend', {
       url: "/backend",
       templateUrl: "./backend/index.html",
-      controller: 'Index'
+      controller: 'Backend as ctrl'
     })
   
 });
 app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($scope, $http, $state, ipCookie) {
 	var ctrl = this;
 	ctrl.checkOppainame = function(oppai_name){
-		$http.get("/api/users/")
-		.success(function(data){
-			if(oppai_name==undefined)
-				$scope.namePass = 'default';
-			else{
-				for(var i=0;i<data.length;i++){
-					if(oppai_name==data[i].oppai_name)
-						$scope.namePass = false;
-					else
-						$scope.namePass = true;
-				}
-			}
-		});
+		if(oppai_name==undefined)
+			$scope.namePass = 'default';
+		else
+		{
+			$http.get("/api/users/"+oppai_name)
+			.success(function(data){
+				if(data!='')
+					$scope.namePass = false;
+				else
+					$scope.namePass = true;	
+			});	
+		}
+		
 	};
 	ctrl.checkEmail = function(email){
 		$http.get("/api/users/")
@@ -51,38 +51,41 @@ app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($
 			if(email==undefined)
 				$scope.emailPass = 'default';
 			else{
-				for(var i=0;i<data.length;i++){
-					if(email==data[i].email)
-						$scope.emailPass = false;
-					else
-						$scope.emailPass = true;
+				if(data =='')
+					$scope.emailPass = true;
+				else
+				{
+					for(var i=0;i<data.length;i++)
+					{
+						if(email==data[i].email)
+						{
+							$scope.emailPass = false;
+							break;
+						}
+						else
+							$scope.emailPass = true;
+					}
 				}
+
 			}
 		});
 	};
 	ctrl.Register = function(data){
 		var hashPassword = calcSHA1(data.password);
-		if (data.email == "" || data.email == null)
-	    	$scope.message = "please input email";
-	    else if (data.password == "" || data.password == null)
-	        $scope.message = "please input password";
-	    else if (data.oppai_name == "" || data.oppai_name == null)
-	    	$scope.message = "please input oppai name";
-	    else{
-			$http.post("/api/users/register/",data)
-			.then(function successCallback(response) {
-				//console.log(response.data)
-			}, function errorCallback(response) {
+		data.password = hashPassword;
+		$http.post("/api/users/register/",data)
+		.then(function successCallback(response) {
+			//console.log(response.data)
+		}, function errorCallback(response) {
 			
-			});
-			$scope.message = "Register successful please wait redirect. . .";
-			setTimeout(function () {
-	          	$scope.$apply(function () {
-					ipCookie("cookieLogin", data, { expires: 15 });
-	              	$state.go("/");
-	          	});
-	      	}, 3000);
-		}
+		});
+		$scope.message = "Register successful please wait redirect. . .";
+		setTimeout(function () {
+	        $scope.$apply(function () {
+				ipCookie("cookieLogin", data, { expires: 15 });
+	            $state.go("/");
+	        });
+	    }, 3000);
 	}
 
 	$scope.back = function(){
@@ -92,7 +95,6 @@ app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($
 
 app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($scope,$http,$state,ipCookie) {
 	var ctrl = this;
-
 	ctrl.init = function(){
 	    ctrl.greeting = 'Welcome!';
 	    $scope.remember = true;
@@ -101,6 +103,7 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 	    	$http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
 	    	.success(function(data){
 	    		ctrl.userinfo = true;
+	    		ctrl.admin = data[0].permission;
 	    		ctrl.name = data[0].oppai_name;
 	    		ctrl.avatar = data[0].avatar;
 	    		$state.go("/");
@@ -118,6 +121,7 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 					if($scope.remember === true)
 					{
 						ctrl.userinfo = true;
+						ctrl.admin = data[0].permission;
 	    				ctrl.name = response.data[0].oppai_name;
 	    				ctrl.avatar = response.data[0].avatar;
 	    				ipCookie("cookieLogin", response.data[0], { expires: 15 });
@@ -125,8 +129,10 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 	    			else
 	    			{
 	    				ctrl.userinfo = true;
+	    				ctrl.admin = data[0].permission;
 	    				ctrl.name = response.data[0].oppai_name;
 	    				ctrl.avatar = response.data[0].avatar;
+	    				ipCookie("cookieLogin", response.data[0], { expires: 1 });
 	    			}
 				}
 				else
@@ -165,4 +171,25 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 		ipCookie.remove("cookieLogin");
 		$state.go("/");
 	}
+}]);
+
+app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($scope,$http,$state,ipCookie) {
+	var ctrl = this;
+	ctrl.init = function(){
+		if(ipCookie("cookieLogin"))
+		{
+			$http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
+	    	.success(function(data){
+	    		if(data[0].permission <4)
+	    			$state.go("/");
+	    		else
+	    			ctrl.hello = "Hi Administrator " + data[0].oppai_name;
+	    	});
+	    }
+	}
+	ctrl.hover = function(){
+		var audio = new Audio('/sound/Pop.mp3');
+		audio.volume = 0.1;
+		audio.play();
+	};
 }]);

@@ -21,7 +21,9 @@ gulp.task('serve', ['nodemon'], function() {
 	    'public/*.html',
 	    'public/css/*.css',
 	    'public/js/*.js',
-	    'public/img/*'
+	    'public/img/*',
+	    'public/backend/*.html',
+	    'public/templates/*.html'
   	]).on('change', browserSync.reload);
 });
 gulp.task('nodemon', function (cb) {

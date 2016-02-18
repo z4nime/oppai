@@ -57,6 +57,7 @@ app.get('/api/users/:oppai_name', function(req, res) {
 
 	});
 });
+
 app.post('/api/login', function(req, res) {
 	db.query("select * from user where email='"+req.body.email+"'", function(err, rows, fields) {
 	  	if (!rows) 

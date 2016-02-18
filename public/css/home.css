@@ -147,6 +147,14 @@ nav div:hover{
   font-size: 32px;
   cursor: pointer;
 }
+nav a{
+  color: #EEEEE1;
+  text-decoration: none;
+}
+nav a:focus,nav a:hover {
+  color: #EEEEE1;
+  text-decoration: none;
+}
 .seven{
   border-bottom:5px solid #9C27B0;
 }
@@ -250,8 +258,8 @@ nav div:hover{
   font-size: 18px;
 }
 .avatar{
-  width:140px;
-  height:140px;
+  width:170px;
+
 }
 .err{
   border: 1px solid rgb(255, 0, 0);
@@ -261,4 +269,14 @@ nav div:hover{
 }
 .default{
   border: 1px solid #ccc;
+}
+
+img{
+  transition: all .1s linear;
+  cursor: pointer;
+}
+img.admin:hover{
+  box-shadow: 0 0 1px black;
+  transition: all .1s linear;
+  margin-left: -15px;
 }

@@ -24,15 +24,14 @@
           </small>
         </p>
         <button type="submit" class="btn  btn-block btn-primary" ng-click="login(email,password);">L o g i n</button>
-          <p class="text-center text-danger"><em><small>{{ ctrl.message }}</small></em></p>
       </form>
       <div ng-show="ctrl.userinfo" class="text-center">
-        <img ng-src="{{ctrl.avatar}}" class="img-circle avatar">
+        <img ng-src="{{ctrl.avatar}}" title="Hi ~~~~" class="img-thumbnail avatar">
         <p class="bg-primary">
           <small>{{ctrl.name}}</small>
         </p>
-        <p class="bg-success" ng-show="backend >=4">
-          <small><a href="#/backend">ระบบแอดมิน</a></small>
+        <p class="bg-success" ng-show="ctrl.admin >=4">
+          <small><a href="#/backend">System</a></small>
         </p>
         <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="logout()">L o g o u t</button>
       </div>
