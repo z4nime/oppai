@@ -1,45 +1,45 @@
 <div id="content" ng-init="ctrl.init()">
-	<div class="noti">{{ctrl.hello}}</div>
-		<div class="row">
-			<div class="col-md-2 col-xs-2">
-				<img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/anime.png">
-				<img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/manga.png">
-				<img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/feedback.png">
-				<img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/report.png">
-				<img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/temp.png">
-			</div>
-			<div class="col-md-10 col-xs-10">
-				<div style="padding:5px;">
-					<h1 class="topic"><em>Anime</em></h1>
-					<form class="form-horizontal" method="post" action="/api/upload/cover_anime" enctype="multipart/form-data" ng-submit="ctrl.post(data)" >
-					  <div class="form-group">
-					    <label class="col-md-2 col-xs-2 control-label">ชื่อเรื่อง</label>
-					    <div class="col-md-10 col-xs-10">
-					      <input type="text" class="form-control" ng-model="data.topic" required>
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label class="col-md-2 col-xs-2 control-label">ภาพปก</label>
-					    <div class="col-md-10 col-xs-10">
-					      <input type="file" name='fileUploaded' ng-model="data.cover" required>
-					      <p class="help-block">Picture Only.</p>
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label class="col-md-2 col-xs-2 control-label">เนื้อเรื่อง</label>
-					    <div class="col-md-10 col-xs-10">
-					      <textarea ckeditor="editorOptions" ng-model="data.detail" required></textarea>
-					    </div>
-					  </div>
-					  <div class="form-group">
-					    <label class="col-md-10 col-xs-10 control-label"></label>
-					    <div class="col-md-2 col-xs-2">
-					      <button type="submit" class="btn btn-block btn-xs btn-primary" >Go Go Go !! </button>
-					    </div>
-					  </div>
-					  
-					 </form>
-				 </div>
-			</div>
-		</div>
+  <div class="noti">{{ctrl.hello}}</div>
+    <div class="row">
+      <div class="col-md-2 col-xs-2">
+        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/anime.png">
+        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/manga.png">
+        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/feedback.png">
+        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/report.png">
+        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/temp.png">
+      </div>
+      <div class="col-md-10 col-xs-10">
+        <div style="padding:5px;">
+          <h1 class="topic"><em>Anime</em></h1>
+          <form class="form-horizontal" method="post" action="/api/upload/cover_anime" enctype="multipart/form-data" ng-submit="ctrl.post(data)" >
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 control-label">ชื่อเรื่อง</label>
+              <div class="col-md-10 col-xs-10">
+                <input type="text" class="form-control" ng-model="data.topic" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 control-label">ภาพปก</label>
+              <div class="col-md-10 col-xs-10">
+                <input type="file" name='fileUploaded' ng-model="data.cover" required>
+                <p class="help-block">Picture Only.</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 control-label">เนื้อเรื่อง</label>
+              <div class="col-md-10 col-xs-10">
+                <textarea ckeditor="editorOptions" ng-model="data.detail" required></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-10 col-xs-10 control-label"></label>
+              <div class="col-md-2 col-xs-2">
+                <button type="submit" class="btn btn-block btn-xs btn-primary" >Go Go Go !! </button>
+              </div>
+            </div>
+            
+           </form>
+         </div>
+      </div>
+    </div>
 </div>
