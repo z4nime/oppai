@@ -1,4 +1,4 @@
-var app = angular.module('main', ['ui.router','ipCookie'])
+var app = angular.module('main', ['ui.router','ipCookie','ngCkeditor','flow'])
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/");
   //
@@ -121,7 +121,7 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 					if($scope.remember === true)
 					{
 						ctrl.userinfo = true;
-						ctrl.admin = data[0].permission;
+						ctrl.admin = response.data[0].permission;
 	    				ctrl.name = response.data[0].oppai_name;
 	    				ctrl.avatar = response.data[0].avatar;
 	    				ipCookie("cookieLogin", response.data[0], { expires: 15 });
@@ -129,7 +129,7 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 	    			else
 	    			{
 	    				ctrl.userinfo = true;
-	    				ctrl.admin = data[0].permission;
+	    				ctrl.admin = response.data[0].permission;
 	    				ctrl.name = response.data[0].oppai_name;
 	    				ctrl.avatar = response.data[0].avatar;
 	    				ipCookie("cookieLogin", response.data[0], { expires: 1 });
@@ -191,5 +191,9 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
 		var audio = new Audio('/sound/Pop.mp3');
 		audio.volume = 0.1;
 		audio.play();
+	};
+
+	ctrl.post = function(data){
+		console.log(data)
 	};
 }]);

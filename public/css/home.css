@@ -280,3 +280,19 @@ img.admin:hover{
   transition: all .1s linear;
   margin-left: -15px;
 }
+
+.topic{
+  border-bottom: 2px solid #FFC107;
+  text-align: right;
+}
+.topic em{
+  color:#FF9800;
+}
+
+input[type='file']{
+  border: 1px solid #ccc;
+  color: #555;
+  border-radius: 4px;
+  width: 100%;
+  background-color: #fff;
+}

@@ -1,14 +1,14 @@
 {
   "name": "oppai",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Hello My Project *temp",
   "main": "gulpfile.js",
   "dependencies": {
     "body-parser": "^1.15.0",
     "browser-sync": "^2.11.1",
     "connect-busboy": "^0.0.2",
-    "formidable": "^1.0.17",
     "express": "^4.13.4",
+    "formidable": "^1.0.17",
     "fs-extra": "^0.26.5",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.0.6",
@@ -17,18 +17,14 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "hello",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/z4nime/oppai.git"
   },
-  "keywords": [
-    "oppai",
-    "anime"
-  ],
-  "author": "oppai anime",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/z4nime/oppai/issues"
