@@ -221,6 +221,7 @@ nav a:focus,nav a:hover {
   background: #FF5722;
   color: #fff;  
   padding:5px;
+  margin: 1px;
 }
 
 .member{
@@ -295,4 +296,13 @@ input[type='file']{
   border-radius: 4px;
   width: 100%;
   background-color: #fff;
+  font-size:18px;
+}
+
+.cover{
+  width:180px;
+  height:255px;
+}
+.text-cen{
+  text-align: center;
 }

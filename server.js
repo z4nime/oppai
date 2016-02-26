@@ -18,6 +18,23 @@ var db_config = {
     database: 'anime'
 };
 var db;
+
+// time 
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
+if(dd<10) {
+    dd='0'+dd
+} 
+
+if(mm<10) {
+    mm='0'+mm
+} 
+
+today = dd+'-'+mm+'-'+yyyy;
+
 function handleDisconnect() {
   	db = mysql.createConnection(db_config); // Recreate the connection, since
                                                   // the old one cannot be reused.
@@ -82,7 +99,7 @@ app.post('/api/users/register/',function(req, res) {
 	});
 });
 
-app.post('/api/upload/cover_anime',function(req,res,next){
+app.post('/api/upload/cover_anime',function(req,res){
 	var form = new formidable.IncomingForm();
     //Formidable uploads to operating systems tmp dir by default
     form.uploadDir = "./public/data/cover_anime/";       //set upload directory
@@ -102,8 +119,29 @@ app.post('/api/upload/cover_anime',function(req,res,next){
         //     throw err;
         //   console.log('renamed complete');  
         // });
-        res.redirect('back');
+        //res.redirect('back');
+        var modifieName = files.image.path.split("\\");
+        files.image.path = "/"+modifieName[1]+"/"+modifieName[2]+"/"+modifieName[3];
+        db.query("insert image_oppai set name='"+files.image.name+"', path='"+files.image.path+"', create_image='"+today+"'", function(err, rows, fields) {
+        	res.json(files.image)
+		});
+        
     });
+});
+
+app.get('/api/anime', function(req, res) {
+	db.query('select * from anime', function(err, rows, fields) {
+	  	if (err) throw err;
+		 res.json(rows);
+	});
+});
+
+app.post('/api/anime/create',function(req,res){
+	db.query("insert anime set topic='"+req.body.topic+"', cover_path='"+req.body.cover+"', status='"+req.body.status.name+"' ,detail='"+req.body.detail+"' ,update_time='"+today+"'", function(err, rows, fields) {
+	 	if (!req.body) 
+	 		return res.sendStatus(400);
+	 	else res.json(req.body.data);
+	});
 });
 
 

@@ -1,4 +1,4 @@
-var app = angular.module('main', ['ui.router','ipCookie','ngCkeditor','flow'])
+var app = angular.module('main', ['ui.router','ipCookie','ngCkeditor','imageupload'])
 app.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise("/");
   //
@@ -176,6 +176,13 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
 app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($scope,$http,$state,ipCookie){
   var ctrl = this;
   ctrl.init = function(){
+    $scope.data = {
+      availableOptions: [
+        {id: '1', name: 'ยังไม่จบ'},
+        {id: '2', name: 'จบแล้ว'}
+      ],
+      status: {id: '1', name: 'ยังไม่จบ'} //This sets the default value of the select in the ui
+    };
     if(ipCookie("cookieLogin"))
     {
       $http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
@@ -185,7 +192,8 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
           else
             ctrl.hello = "Hi Administrator " + data[0].oppai_name;
         });
-      }
+    }
+    ctrl.anime();
   }
   ctrl.hover = function(){
     var audio = new Audio('/sound/Pop.mp3');
@@ -194,6 +202,27 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
   };
 
   ctrl.post = function(data){
-    console.log(data)
+    var formData = new FormData();
+    formData.append('image', data.cover.file, data.cover.file.name);
+    $http.post('/api/upload/cover_anime', formData, {
+      headers: { 'Content-Type': false },
+      transformRequest: angular.identity
+    }).success(function(result) {
+        data.cover = result.path
+        $http.post('/api/anime/create',data) // insert anime
+        .then(function successCallback(response){
+          $scope.data.topic = null;
+          $scope.data.detail = null;
+          $scope.data.cover = null;
+          ctrl.anime();
+        })
+    }); 
   };
+
+  ctrl.anime = function(){
+    $http.get('/api/anime')
+    .success(function(data){
+      ctrl.allAnime = data;
+    });
+  }
 }]);

@@ -11,7 +11,7 @@
       <div class="col-md-10 col-xs-10">
         <div style="padding:5px;">
           <h1 class="topic"><em>Anime</em></h1>
-          <form class="form-horizontal" method="post" action="/api/upload/cover_anime" enctype="multipart/form-data" ng-submit="ctrl.post(data)" >
+          <form class="form-horizontal"   enctype="multipart/form-data" ng-submit="ctrl.post(data)" >
             <div class="form-group">
               <label class="col-md-2 col-xs-2 control-label">ชื่อเรื่อง</label>
               <div class="col-md-10 col-xs-10">
@@ -21,8 +21,15 @@
             <div class="form-group">
               <label class="col-md-2 col-xs-2 control-label">ภาพปก</label>
               <div class="col-md-10 col-xs-10">
-                <input type="file" name='fileUploaded' ng-model="data.cover" required>
-                <p class="help-block">Picture Only.</p>
+                <input type="file" accept="image/*" image="data.cover" resize-max-height="300" resize-max-width="250" resize-quality="0.7"  required>
+                <!-- <img ng-show="cover" ng-src="{{cover.url}}" type="{{cover.file.type}}"> -->
+                <img ng-show="data.cover" ng-src="{{data.cover.resized.dataURL}}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 col-xs-2 control-label">สถานะ</label>
+              <div class="col-md-10 col-xs-10">
+                <select class="form-control" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.status"></select>
               </div>
             </div>
             <div class="form-group">
@@ -40,6 +47,19 @@
             
            </form>
          </div>
+      </div>
+      
+
+    </div>
+    <div class="noti">
+      Anime [A-Z]
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="col-md-3 col-xs-3 text-cen" ng-repeat="data in ctrl.allAnime | orderBy : 'topic'">
+          <img class="img-thumbnail cover" title="{{data.topic}}" ng-src="{{data.cover_path}}">
+          <p class="text-primary "><small>{{data.topic}}</small></p>
+        </div>
       </div>
     </div>
 </div>
