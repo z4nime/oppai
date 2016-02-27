@@ -3,12 +3,12 @@ app.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise("/");
   //
   // Now set up the states
-    $stateProvider
+  $stateProvider
     .state('entersite', {
       url: "/entersite",
       templateUrl: "./templates/entersite.html"
     })
-    $stateProvider
+  $stateProvider
     .state('/', {
       url: "/",
       templateUrl: "./templates/portal.html",
@@ -20,11 +20,17 @@ app.config(function($stateProvider, $urlRouterProvider){
       templateUrl: "./templates/register.html",
       controller: 'Register as ctrl'
     })
-    $stateProvider
+  $stateProvider
     .state('backend', {
       url: "/backend",
       templateUrl: "./backend/index.html",
       controller: 'Backend as ctrl'
+    })
+  $stateProvider
+    .state('editanime', {
+      url: "/backend/anime/:id",
+      templateUrl: "./backend/editAnime.html",
+      controller: 'EditAnime as ctrl'
     })
   
 });
@@ -183,6 +189,7 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
       ],
       status: {id: '1', name: 'ยังไม่จบ'} //This sets the default value of the select in the ui
     };
+
     if(ipCookie("cookieLogin"))
     {
       $http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
@@ -190,7 +197,7 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
           if(data[0].permission <4)
             $state.go("/");
           else
-            ctrl.hello = "Hi Administrator " + data[0].oppai_name;
+            ctrl.hello = "Hi ~~~  " + data[0].oppai_name;
         });
     }
     ctrl.anime();
@@ -224,5 +231,36 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
     .success(function(data){
       ctrl.allAnime = data;
     });
+  }
+}]);
+app.controller('EditAnime', ['$scope' ,'$http' , '$state' , 'ipCookie' ,'$stateParams', function($scope,$http,$state,ipCookie,$stateParams){
+  var ctrl = this;
+  ctrl.init = function(){
+   if(ipCookie("cookieLogin"))
+    {
+      $http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
+        .success(function(data){
+          if(data[0].permission <4)
+            $state.go("/");
+          else
+            ctrl.hello = "Hi ~~~ " + data[0].oppai_name;
+        });
+    }
+    $http.get('/api/anime/'+$stateParams.id)
+    .success(function(data){
+      $scope.data = data[0];
+    })
+  }
+
+  ctrl.edit = function(data){
+    $http.put('/api/anime/',data)
+    .success(function(data){
+      //console.log(data)
+      window.location.reload();
+    })
+  }
+
+  ctrl.back = function(){
+    window.history.back();
   }
 }]);

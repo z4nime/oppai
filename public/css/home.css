@@ -306,3 +306,9 @@ input[type='file']{
 .text-cen{
   text-align: center;
 }
+.h_icon{
+  padding: 1px;
+  font-size: 22px;
+  color: #00BCD4;
+}
+

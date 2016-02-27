@@ -135,6 +135,19 @@ app.get('/api/anime', function(req, res) {
 		 res.json(rows);
 	});
 });
+app.get('/api/anime/:id', function(req, res) {
+	db.query("select * from anime where anime_id='"+req.params.id+"'", function(err, rows, fields) {
+	  	if (err) throw err;
+		 res.json(rows);
+	});
+});
+app.put('/api/anime/', function(req, res) {
+	db.query("update anime set topic='"+req.body.topic+"' , status='"+req.body.status+"' , detail='"+req.body.detail+"' , update_time='"+today+"' where anime_id='"+req.body.anime_id+"'", function(err, rows, fields) {
+	  	if (err) throw err;
+		res.json(rows);
+	});
+
+});
 
 app.post('/api/anime/create',function(req,res){
 	db.query("insert anime set topic='"+req.body.topic+"', cover_path='"+req.body.cover+"', status='"+req.body.status.name+"' ,detail='"+req.body.detail+"' ,update_time='"+today+"'", function(err, rows, fields) {
@@ -145,5 +158,5 @@ app.post('/api/anime/create',function(req,res){
 });
 
 
-app.listen(7777); 
+app.listen(8888); 
 //console.log("Server on port : 3000")

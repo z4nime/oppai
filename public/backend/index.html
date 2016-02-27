@@ -2,13 +2,13 @@
   <div class="noti">{{ctrl.hello}}</div>
     <div class="row">
       <div class="col-md-2 col-xs-2">
-        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/anime.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="anime=true" class="admin" ng-src="/img/icon/anime.png">
         <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/manga.png">
         <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/feedback.png">
         <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/report.png">
         <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/temp.png">
       </div>
-      <div class="col-md-10 col-xs-10">
+      <div class="col-md-10 col-xs-10 " ng-show="anime">
         <div style="padding:5px;">
           <h1 class="topic"><em>Anime</em></h1>
           <form class="form-horizontal"   enctype="multipart/form-data" ng-submit="ctrl.post(data)" >
@@ -57,9 +57,10 @@
     <div class="row">
       <div class="col-md-12 col-xs-12">
         <div class="col-md-3 col-xs-3 text-cen" ng-repeat="data in ctrl.allAnime | orderBy : 'topic'">
-          <img class="img-thumbnail cover" title="{{data.topic}}" ng-src="{{data.cover_path}}">
+          <a ng-href="#/backend/anime/{{data.anime_id}}"><img class="img-thumbnail cover" title="{{data.topic}}" ng-src="{{data.cover_path}}"></a>
           <p class="text-primary "><small>{{data.topic}}</small></p>
         </div>
       </div>
+
     </div>
 </div>
