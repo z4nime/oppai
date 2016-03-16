@@ -1,14 +1,18 @@
 @font-face{
   font-family: dsnlardphrao;
-  src: url('../fonts/DSNLP___.TTF');
+  src: url('../fonts/BoonJot-400.ttf');
+}
+
+html {
+    font-size: 62.5%; /* เพื่อให้ 1rem มีค่าประมาณ 10px */
 }
 body {
-  font: 600 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+  /*font: 600 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;*/
   width:100%;
   height:100%;
   font-weight: 300;
   font-family: 'dsnlardphrao', sans-serif;
-  font-size: 22px;
+  /*font-size: 2.2em; /* มีค่าประมาณ 14px */
 }
 body.bg{
   background: #5cb8ed url('http://www.sellsuki.com/img_home/bg-pattern-1.jpg') repeat;
@@ -127,13 +131,12 @@ body.bg{
 }
 nav{
   margin-top: -34px;
-  /*margin-left: 650px;*/
   color: #EEE;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.43);
   height: 29px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  text-shadow: 0px 3px 3px #2196F3, 9px 8px 0px rgba(0, 0, 0, 0.15);
+  text-shadow: 0px 3px 3px #2196F3, 0px 0px 0px rgba(0, 0, 0, 0.15);
 }
 nav div{
   float:left;
@@ -144,7 +147,7 @@ nav div{
 nav div:hover{
   border-bottom:5px solid rgba(0, 0, 0, 0.65);
   transition: all .1s linear;
-  font-size: 32px;
+  font-size: 12px;
   cursor: pointer;
 }
 nav a{
@@ -156,28 +159,28 @@ nav a:focus,nav a:hover {
   text-decoration: none;
 }
 .seven{
-  border-bottom:5px solid #9C27B0;
+  border-bottom:3px solid #9C27B0;
 }
 .six{
-  border-bottom:5px solid #3F51B5;
+  border-bottom:3px solid #3F51B5;
 }
 .five{
-  border-bottom:5px solid #03A9F4;
+  border-bottom:3px solid #03A9F4;
 }
 .four{
-  border-bottom:5px solid #4CAF50;
+  border-bottom:3px solid #4CAF50;
 }
 .thee{
-  border-bottom:5px solid #FFEB3B;
+  border-bottom:3px solid #FFEB3B;
 }
 .two{
-  border-bottom:5px solid #FF9800;
+  border-bottom:3px solid #FF9800;
 }
 .one{
-  border-bottom:5px solid #FF5722;
+  border-bottom:3px solid #FF5722;
 }
 .white{
-  border-bottom:5px solid #607D8B;
+  border-bottom:3px solid #607D8B;
 }
 #social{
   position: absolute;
@@ -255,9 +258,7 @@ nav a:focus,nav a:hover {
 .btn{
   font-size: 16px;
 }
-.form-control{
-  font-size: 18px;
-}
+
 .avatar{
   width:170px;
 
@@ -308,7 +309,50 @@ input[type='file']{
 }
 .h_icon{
   padding: 1px;
-  font-size: 22px;
+  font-size: 30px;
   color: #00BCD4;
 }
 
+.droplist{
+  position: absolute;
+  z-index: 999;
+  background: #fff;
+  width: 96%;
+  margin-top: 9px;
+}
+
+.search_list{
+  margin-top: -11px;
+  padding: 5px;
+  border: 1px solid rgba(148, 148, 148, 0.15);
+  color: #2196F3;
+}
+
+#detail blockquote{
+  font-size: 18.5px;
+}
+.anime_list{
+  border: 1px solid rgba(158, 158, 158, 0.32);
+  padding: 5px;
+}
+#color_red{
+  color:red;
+}
+#color_aqua{
+  color: aqua;
+}
+#color_cadetblue{
+  color:cadetblue;
+}
+#icon_addon{
+  font-size: 18px;
+}
+#icon_cloud{
+  font-size: 25px;
+  line-height: 0px;
+  color: #FF5722;
+}
+
+.panal{
+  font-size: 25px;
+}

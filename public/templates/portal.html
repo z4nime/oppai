@@ -2,7 +2,7 @@
   <div class="noti">Oppai Notification : {{ctrl.greeting}}</div>
   <div class="row">
     <div class="col-md-2 col-xs-2">
-      Member Zone
+      <i class="ion-person"></i> Member Zone
       <form ng-show="!ctrl.userinfo" ng-submit="ctrl.login(data)">
         <div class="form-group">
           Email address
@@ -30,9 +30,15 @@
         <p class="bg-primary">
           <small>{{ctrl.name}}</small>
         </p>
-        <p class="bg-success" ng-show="ctrl.admin >=4">
-          <small><a href="#/backend">System</a></small>
+        <p class="panal bg-success">
+          <a href="#/"><i class="ion-email" title="message"></i></a>
+          <a href="#/backend" ng-show="ctrl.admin >=4"><i class="ion-at" title="system"></i></a>
+          <a href="#/backend"><i class="ion-android-settings" title="config"></i></a>
         </p>
+        <p>----- info ----</p>
+        <p><i class="ion-heart"></i> 999 </p>
+        <p><i class="ion-android-folder"></i> 999 </p>
+        <p>----- pet -----</p>
         <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="logout()">L o g o u t</button>
       </div>
 
@@ -42,9 +48,13 @@
     <div class="col-md-10 col-xs-10">
       New Update Manga
       <br> <br> <br> <br> <br> <br> <br> <br> 
-      <hr>
-      New Update Anime
-      <br> <br> <br> <br> <br> <br> <br> <br> 
+      <h5 class="noti"><i class="ion-android-folder"></i> New Update Anime</h1>
+      <br>
+      <div ng-repeat="data in ctrl.anime | orderBy : 'update_time' | limitTo:5 " style="float:left">
+        <a ng-href="#/anime/{{data.anime_id}}" target="_blank" title="{{data.topic}}"><img class="img-thumbnail cover" title="{{data.topic}}" ng-src="{{data.cover_path}}"></a>
+        <!-- <p class="text-primary "><small>{{data.topic}}</small></p> -->
+      </div>
+      <div style="clear:both;"></div>
     </div>
     <div class="col-md-8 col-xs-8">
       <hr>

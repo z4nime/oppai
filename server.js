@@ -146,7 +146,6 @@ app.put('/api/anime/', function(req, res) {
 	  	if (err) throw err;
 		res.json(rows);
 	});
-
 });
 
 app.post('/api/anime/create',function(req,res){
@@ -157,6 +156,24 @@ app.post('/api/anime/create',function(req,res){
 	});
 });
 
-
+app.post('/api/anime/episode/',function(req,res){
+	db.query("insert episode set anime_id='"+req.body[0].anime_id+"', ep='"+req.body[0].ep+"', url='"+req.body[0].url+"', type='"+req.body[0].type+"'",function(err,rows,fields){
+		if(!req.body)
+			return res.sendStats(400);
+		else res.json(req.body[0].data);
+	});
+});
+app.get('/api/anime/episode/:id',function(req,res){
+	db.query("select * from episode where anime_id='"+req.params.id+"'",function(err,rows,fileds){
+		if (err) throw err;
+		 res.json(rows);
+	})
+});
+app.put('/api/anime/episode/del/:anime_id/:ep',function(req,res){
+  db.query("delete from episode where anime_id='"+req.params.anime_id+"' and ep='"+req.params.ep+"' ",function(err,rows,fileds){
+    if (err) throw err;
+     res.json(rows);
+  })
+});
 app.listen(8888); 
 //console.log("Server on port : 3000")

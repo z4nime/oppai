@@ -1,0 +1,24 @@
+<div id="content" ng-init="ctrl.init()">
+    <div class="row">
+      <div style="padding:5px;">
+        <h1 class="topic"><a ng-click="ctrl.back()"><i class="ion-chevron-left h_icon"></i><i class="ion-chevron-left h_icon"></i><i class="ion-chevron-left h_icon"></i></a><em> {{data.topic}}</em></h1>
+        <div class="col-md-4 col-xs-4">
+          <img class="img-thumbnail" ng-src="{{data.cover_path}}">
+        </div>
+        <div class="col-md-8 col-xs-8">
+          <div class="text-right">
+            <div class="btn btn-default"><i id="color_red" class="ion-heart" ng-click="favorite()"></i> Favorite</div>
+            <div class="btn btn-default"><i id="color_cadetblue" class="ion-flag" ng-click="report()"></i> Report</div>
+          </div>
+          <br>
+          <div class="well well-sm" id="detail"></div>
+          <div class="noti"><i class="ion-ios-list"></i> anime list</div>
+          <div ng-repeat="episode in ctrl.episode">
+            <div class="anime_list">{{data.topic}} {{episode.ep}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end content -->
+    

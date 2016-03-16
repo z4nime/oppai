@@ -32,8 +32,17 @@ app.config(function($stateProvider, $urlRouterProvider){
       templateUrl: "./backend/editAnime.html",
       controller: 'EditAnime as ctrl'
     })
+  $stateProvider
+    .state('anime', {
+      url: "/anime/:id",
+      templateUrl: "./templates/anime.html",
+      controller: 'viewAnime as ctrl'
+    })
   
 });
+
+
+
 app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($scope, $http, $state, ipCookie){
   var ctrl = this;
   ctrl.checkOppainame = function(oppai_name){
@@ -102,19 +111,30 @@ app.controller('Register', ['$scope', '$http' , '$state' ,'ipCookie', function($
 app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($scope,$http,$state,ipCookie){
   var ctrl = this;
   ctrl.init = function(){
-      ctrl.greeting = 'Welcome!';
-      $scope.remember = true;
-      if(ipCookie("cookieLogin"))
-      {
-        $http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
-        .success(function(data){
-          ctrl.userinfo = true;
-          ctrl.admin = data[0].permission;
-          ctrl.name = data[0].oppai_name;
-          ctrl.avatar = data[0].avatar;
-          $state.go("/");
-        })
-      }
+    ctrl.greeting = 'Welcome!';
+    $scope.remember = true;
+    if(ipCookie("cookieLogin"))
+    {
+      $http.get("/api/users/"+ipCookie("cookieLogin").oppai_name)
+      .success(function(data){
+        ctrl.userinfo = true;
+        ctrl.admin = data[0].permission;
+        ctrl.name = data[0].oppai_name;
+        ctrl.avatar = data[0].avatar;
+        $state.go("/");
+      })
+    }
+    $http.get('/api/anime')
+    .success(function(data){
+      ctrl.anime = data;
+    });
+    setInterval(function(){
+      $http.get('/api/anime')
+      .success(function(data){
+        ctrl.anime = data;
+      });
+    },60000);
+    
   }
     ctrl.login = function(data){
       var hashPassword = calcSHA1(data.password);
@@ -177,7 +197,11 @@ app.controller('Index', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($s
     ipCookie.remove("cookieLogin");
     $state.go("/");
   }
+
+
 }]);
+
+
 
 app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function($scope,$http,$state,ipCookie){
   var ctrl = this;
@@ -232,7 +256,45 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
       ctrl.allAnime = data;
     });
   }
+
+  ctrl.select_anime = function(anime_id,name){
+    ctrl.showEpisode = true;
+    ctrl.anime_name = name;
+    $scope.anime_id = anime_id;
+    $scope.search_anime = "";
+    ctrl.getEpisode(anime_id);
+    $scope.episode = {
+      availableOptions: [
+        {id: '1', name: 'facebook'},
+        {id: '2', name: 'googleDrive'}
+      ],
+      type: {id: '1', name: 'facebook'} //This sets the default value of the select in the ui
+    };
+  }
+  ctrl.getEpisode = function(anime_id){
+    $http.get('/api/anime/episode/'+anime_id)
+    .success(function(data){
+      ctrl.episode = data;
+    });
+  }
+  ctrl.delete = function(anime_id,ep){
+    $http.put("/api/anime/episode/del/"+anime_id+"/"+ep)
+    .success(function(data){
+      ctrl.getEpisode($scope.anime_id);
+    });
+  };
+  ctrl.post_ep = function(data){
+    var obj = [];
+    obj.push({"anime_id":$scope.anime_id,"ep":data.ep,"type":data.type,"url":data.url});
+    $http.post('/api/anime/episode/',obj)
+    .success(function(data){
+      ctrl.getEpisode($scope.anime_id);
+    });
+  }
 }]);
+
+
+
 app.controller('EditAnime', ['$scope' ,'$http' , '$state' , 'ipCookie' ,'$stateParams', function($scope,$http,$state,ipCookie,$stateParams){
   var ctrl = this;
   ctrl.init = function(){
@@ -263,4 +325,20 @@ app.controller('EditAnime', ['$scope' ,'$http' , '$state' , 'ipCookie' ,'$stateP
   ctrl.back = function(){
     window.history.back();
   }
+
 }]);
+
+app.controller('viewAnime',function($scope,$http,$stateParams){
+  var ctrl = this;
+  ctrl.init = function(){
+    $http.get('/api/anime/'+$stateParams.id)
+    .success(function(data){
+      $scope.data = data[0];
+      $("#detail").append(data[0].detail)
+    })
+    $http.get('/api/anime/episode/'+$stateParams.id)
+    .success(function(data){
+      ctrl.episode = data;
+    });
+  }
+});
