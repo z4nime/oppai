@@ -221,10 +221,30 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
           if(data[0].permission <4)
             $state.go("/");
           else
+          {
             ctrl.hello = "Hi ~~~  " + data[0].oppai_name;
+            // temp 
+            var currentdate = new Date(); 
+            var datetime = currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();            
+            $http.get('https://api.ipify.org?format=json')
+            .success(function(ip){
+              var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
+              "action":"Login Backend By : "+data[0].oppai_name,
+              "ip":ip.ip,
+              "date_time":datetime};
+              $http.post('/api/temp',temp)
+              .success(function(data){
+                ctrl.temp();
+              });
+            });
+          }
         });
     }
     ctrl.anime();
+    ctrl.limit = 0;
+    ctrl.total_more = 0;
   }
   ctrl.hover = function(){
     var audio = new Audio('/sound/Pop.mp3');
@@ -246,8 +266,29 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
           $scope.data.detail = null;
           $scope.data.cover = null;
           ctrl.anime();
+
         })
     }); 
+
+    // temp 
+    var currentdate = new Date(); 
+    // var datetime = "Last Sync: " + currentdate.getDate() + "/"
+    //             + (currentdate.getMonth()+1)  + "/" 
+    //             + currentdate.getFullYear() + " @ "  
+    var datetime = currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();          
+    $http.get('https://api.ipify.org?format=json')
+    .success(function(ip){
+      var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
+      "action":"Create Anime : "+data.topic,
+      "ip":ip.ip,
+      "date_time":datetime};
+      $http.post('/api/temp',temp)
+      .success(function(data){
+
+      });
+    });
   };
 
   ctrl.anime = function(){
@@ -263,6 +304,7 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
     $scope.anime_id = anime_id;
     $scope.search_anime = "";
     ctrl.getEpisode(anime_id);
+
     $scope.episode = {
       availableOptions: [
         {id: '1', name: 'facebook'},
@@ -278,9 +320,25 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
     });
   }
   ctrl.delete = function(anime_id,ep){
-    $http.put("/api/anime/episode/del/"+anime_id+"/"+ep)
+    $http.delete("/api/anime/episode/del/"+anime_id+"/"+ep)
     .success(function(data){
       ctrl.getEpisode($scope.anime_id);
+    });
+    // temp 
+    var currentdate = new Date(); 
+    var datetime = currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();            
+    $http.get('https://api.ipify.org?format=json')
+    .success(function(ip){
+      var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
+      "action":"Delete Anime : "+ctrl.anime_name+ " EP : "+ep,
+      "ip":ip.ip,
+      "date_time":datetime};
+      $http.post('/api/temp',temp)
+      .success(function(data){
+        // console.log(data)
+      });
     });
   };
   ctrl.post_ep = function(data){
@@ -290,7 +348,47 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
     .success(function(data){
       ctrl.getEpisode($scope.anime_id);
     });
+
+    // temp 
+    var currentdate = new Date(); 
+    var datetime = currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();            
+    $http.get('https://api.ipify.org?format=json')
+    .success(function(ip){
+      var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
+      "action":"Update Anime : "+ctrl.anime_name+ " EP : "+data.ep,
+      "ip":ip.ip,
+      "date_time":datetime};
+      $http.post('/api/temp',temp)
+      .success(function(data){
+        // console.log(data)
+      });
+    });
   }
+
+  ctrl.temp = function(){
+    $http.get('/api/temp')
+    .success(function(data){
+      ctrl.data_temp = data;
+      ctrl.limit=ctrl.limit+20;
+      if(ctrl.total_more>=0)
+        ctrl.total_more = ctrl.data_temp.length-ctrl.limit;
+      if(ctrl.total_more<0)
+        ctrl.total_more =0;
+    });
+  }
+  ctrl.clear = function(){
+    if(ipCookie("cookieLogin").permission<5)
+      alert("Access Deny By WebMaster");
+    else{
+      $http.delete('/api/temp')
+      .success(function(data){
+        ctrl.temp();
+      });
+    }
+  }
+
 }]);
 
 
@@ -315,13 +413,52 @@ app.controller('EditAnime', ['$scope' ,'$http' , '$state' , 'ipCookie' ,'$stateP
   }
 
   ctrl.edit = function(data){
+    // temp 
+    var currentdate = new Date(); 
+    var datetime = currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();            
+    $http.get('https://api.ipify.org?format=json')
+    .success(function(ip){
+      var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
+      "action":"Edit Anime : "+data.topic,
+      "ip":ip.ip,
+      "date_time":datetime};
+      $http.post('/api/temp',temp)
+      .success(function(data){
+        // console.log(data)
+      });
+    });
+
     $http.put('/api/anime/',data)
     .success(function(data){
-      //console.log(data)
-      window.location.reload();
-    })
+      //window.location.reload();
+    });
+    
   }
+  ctrl.delete = function(anime_id,topic){
+    // temp 
+    var currentdate = new Date(); 
+    var datetime = currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();            
+    $http.get('https://api.ipify.org?format=json')
+    .success(function(ip){
+      var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
+      "action":"Delete Anime : "+topic,
+      "ip":ip.ip,
+      "date_time":datetime};
+      $http.post('/api/temp',temp)
+      .success(function(data){
+        // console.log(data)
+      });
+    });
 
+    $http.delete("/api/anime/"+anime_id)
+    .success(function(data){
+      window.history.back();
+    });
+  };
   ctrl.back = function(){
     window.history.back();
   }

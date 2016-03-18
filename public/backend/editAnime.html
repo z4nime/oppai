@@ -11,7 +11,12 @@
             <input type="text" class="form-control" ng-model="data.topic" required><br>
             <input class="form-control" ng-model="data.status"></input> <br>
             <textarea ckeditor="editorOptions" ng-model="data.detail" required></textarea><br>
-            <button type="submit" class="btn btn-block btn-xs btn-primary" >Update !! ~~~~~~ </button><br>
+            <div class="col-md-6 col-xs-6">
+              <button type="submit" class="btn btn-block btn-xs btn-primary" >Update !! ~~~~~~ </button><br>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="ctrl.delete(data.anime_id,data.topic)">Delete !! </button><br>
+            </div>
           </div>
         </form>
       </div>

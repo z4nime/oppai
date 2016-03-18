@@ -66,6 +66,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+// user
 app.get('/api/users/', function(req, res,next) {
 	db.query('select * from user', function(err, rows, fields) {
 	  	if (err) throw err;
@@ -82,7 +83,6 @@ app.get('/api/users/:oppai_name', function(req, res) {
 
 	});
 });
-
 app.post('/api/login', function(req, res) {
 	db.query("select * from user where email='"+req.body.email+"'", function(err, rows, fields) {
 	  	if (!rows) 
@@ -99,6 +99,7 @@ app.post('/api/users/register/',function(req, res) {
 	});
 });
 
+// anime 
 app.post('/api/upload/cover_anime',function(req,res){
 	var form = new formidable.IncomingForm();
     //Formidable uploads to operating systems tmp dir by default
@@ -141,21 +142,28 @@ app.get('/api/anime/:id', function(req, res) {
 		 res.json(rows);
 	});
 });
+app.post('/api/anime/create',function(req,res){
+  db.query("insert anime set topic='"+req.body.topic+"', cover_path='"+req.body.cover+"', status='"+req.body.status.name+"' ,detail='"+req.body.detail+"' ,update_time='"+today+"'", function(err, rows, fields) {
+    if (!req.body) 
+      return res.sendStatus(400);
+    else res.json(req.body.data);
+  });
+});
 app.put('/api/anime/', function(req, res) {
 	db.query("update anime set topic='"+req.body.topic+"' , status='"+req.body.status+"' , detail='"+req.body.detail+"' , update_time='"+today+"' where anime_id='"+req.body.anime_id+"'", function(err, rows, fields) {
 	  	if (err) throw err;
 		res.json(rows);
 	});
 });
-
-app.post('/api/anime/create',function(req,res){
-	db.query("insert anime set topic='"+req.body.topic+"', cover_path='"+req.body.cover+"', status='"+req.body.status.name+"' ,detail='"+req.body.detail+"' ,update_time='"+today+"'", function(err, rows, fields) {
-	 	if (!req.body) 
-	 		return res.sendStatus(400);
-	 	else res.json(req.body.data);
-	});
+app.delete('/api/anime/:anime_id',function(req,res){
+  db.query("delete from anime where anime_id='"+req.params.anime_id+"'",function(err,rows,fileds){
+    if (err) throw err;
+     res.json(rows);
+  })
 });
 
+
+// episode
 app.post('/api/anime/episode/',function(req,res){
 	db.query("insert episode set anime_id='"+req.body[0].anime_id+"', ep='"+req.body[0].ep+"', url='"+req.body[0].url+"', type='"+req.body[0].type+"'",function(err,rows,fields){
 		if(!req.body)
@@ -169,11 +177,32 @@ app.get('/api/anime/episode/:id',function(req,res){
 		 res.json(rows);
 	})
 });
-app.put('/api/anime/episode/del/:anime_id/:ep',function(req,res){
+app.delete('/api/anime/episode/del/:anime_id/:ep',function(req,res){
   db.query("delete from episode where anime_id='"+req.params.anime_id+"' and ep='"+req.params.ep+"' ",function(err,rows,fileds){
     if (err) throw err;
      res.json(rows);
   })
+});
+
+//temp
+app.post('/api/temp',function(req,res){
+  db.query("insert temp set oppai_name='"+req.body.oppai_name+"', action='"+req.body.action+"', ip='"+req.body.ip+"', date='"+today+"',date_time='"+req.body.date_time+"'",function(err,rows,fields){
+    if(!req.body)
+      return res.sendStats(400);
+    else res.json(req.body);
+  });
+});
+app.get('/api/temp',function(req,res){
+  db.query("select * from temp",function(err,rows,fields){
+    if (err) throw err;
+      res.json(rows);
+  });
+});
+app.delete('/api/temp',function(req,res){
+  db.query("DELETE FROM temp WHERE 1",function(err,rows,fields){
+    if (err) throw err;
+      res.json(rows);
+  });
 });
 app.listen(8888); 
 //console.log("Server on port : 3000")

@@ -2,7 +2,6 @@
   <div class="noti">Oppai Notification : {{ctrl.greeting}}</div>
   <div class="row">
     <div class="col-md-2 col-xs-2">
-      <i class="ion-person"></i> Member Zone
       <form ng-show="!ctrl.userinfo" ng-submit="ctrl.login(data)">
         <div class="form-group">
           Email address
@@ -28,7 +27,7 @@
       <div ng-show="ctrl.userinfo" class="text-center">
         <img ng-src="{{ctrl.avatar}}" title="Hi ~~~~" class="img-thumbnail avatar">
         <p class="bg-primary">
-          <small>{{ctrl.name}}</small>
+          <small><i class="ion-person"></i> {{ctrl.name}}</small>
         </p>
         <p class="panal bg-success">
           <a href="#/"><i class="ion-email" title="message"></i></a>
@@ -46,7 +45,7 @@
       Anime Fall 2016
     </div>
     <div class="col-md-10 col-xs-10">
-      New Update Manga
+      <h5 class="noti"><i class="ion-android-folder"></i> New Update Manga</h1>
       <br> <br> <br> <br> <br> <br> <br> <br> 
       <h5 class="noti"><i class="ion-android-folder"></i> New Update Anime</h1>
       <br>

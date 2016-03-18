@@ -2,12 +2,12 @@
   <div class="noti">{{ctrl.hello}}</div>
     <div class="row">
       <div class="col-md-2 col-xs-2">
-        <img ng-mouseover="ctrl.hover()" ng-click="icon_episode=true;icon_anime=false" class="admin" ng-src="/img/icon/episode.png">
-        <img ng-mouseover="ctrl.hover()" ng-click="icon_anime=true;icon_episode=false" class="admin" ng-src="/img/icon/anime.png">
-        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/manga.png">
-        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/feedback.png">
-        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/report.png">
-        <img ng-mouseover="ctrl.hover()" class="admin" ng-src="/img/icon/temp.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="icon_episode=true;icon_anime=false;icon_manga=false;icon_feedback=false;icon_report=false;icon_temp=false;" class="admin" ng-src="/img/icon/episode.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="icon_anime=true;icon_episode=false;icon_manga=false;icon_feedback=false;icon_report=false;icon_temp=false;" class="admin" ng-src="/img/icon/anime.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="icon_manga=true;icon_episode=false;icon_anime=false;icon_feedback=false;icon_report=false;icon_temp=false;" class="admin" ng-src="/img/icon/manga.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="icon_feedback=true;icon_episode=false;icon_anime=false;icon_manga=false;icon_report=false;icon_temp=false;" class="admin" ng-src="/img/icon/feedback.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="icon_report=true;icon_episode=false;icon_anime=false;icon_manga=false;icon_feedback=false;icon_temp=false;" class="admin" ng-src="/img/icon/report.png">
+        <img ng-mouseover="ctrl.hover()" ng-click="icon_temp=true;icon_episode=false;icon_anime=false;icon_manga=false;icon_feedback=false;icon_report=false;" class="admin" ng-src="/img/icon/temp.png">
       </div>
       <div class="col-md-10 col-xs-10" ng-show="icon_episode">
         <div style="padding:5px;">
@@ -77,6 +77,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-10 col-xs-10 " ng-show="icon_anime">
         <div style="padding:5px;">
           <h1 class="topic"><em>Anime</em></h1>
@@ -114,12 +115,41 @@
               </div>
             </div>
             
-           </form>
-         </div>
+          </form>
+        </div>
       </div>
-      
-
+    <div class="col-md-10 col-xs-10 " ng-show="icon_temp">
+      <div style="padding:5px;">
+        <h1 class="topic"><i class="ion-chevron-left h_icon"></i><i class="ion-chevron-left h_icon"></i><i class="ion-chevron-left h_icon"></i><em> Temp</em></h1>
+        <table class="table table-striped">
+          <tr class="info">
+            <td>No.</td>
+            <td>Name</td>
+            <td>Action</td>
+            <td>IP Address</td>
+            <td>Date</td>
+            <td>Time</td>
+          </tr>
+          <tr ng-repeat="data in ctrl.data_temp | orderBy:'-date_time' | limitTo:ctrl.limit">
+            <td>{{$index+1}}</td>
+            <td>{{data.oppai_name}}</td>
+            <td>{{data.action}}</td>
+            <td>{{data.ip}}</td>
+            <td>{{data.date}}</td>
+            <td>{{data.date_time}}</td>
+          </tr>
+        </table>
+        <div class="col-md-10 col-xs-10">
+          <button type="button" class="btn btn-primary btn-block" ng-show="ctrl.data_temp" ng-click="ctrl.temp()">Load More Temp ({{ctrl.total_more}})</button>
+        </div>
+        <div class="col-md-2 col-xs-2">
+        <button type="button" class="btn btn-danger" ng-show="ctrl.data_temp" ng-click="ctrl.clear()">Clear</button>
+        </div>
+      </div>
     </div>
+
+    </div><!-- end row -->
+
     <div ng-show="icon_anime">
       <div class="noti">
         Anime [A-Z]
