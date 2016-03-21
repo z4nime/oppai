@@ -1,4 +1,4 @@
-var app = angular.module('main', ['ui.router','ipCookie','ngCkeditor','imageupload'])
+var app = angular.module('main', ['ui.router','ipCookie','ngCkeditor','imageupload','angular-jwplayer'])
 app.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise("/");
   //
@@ -478,4 +478,26 @@ app.controller('viewAnime',function($scope,$http,$stateParams){
       ctrl.episode = data;
     });
   }
+  $scope.options = {
+    playlist: [
+    {
+      file: "https://c8379c8de7eca3a0ffb5fb4fbe0c343a266b1cba.googledrive.com/host/0B9OjzW_2GIRYM254cFJjcWxsdEk/Hidan no Aria AA/%5BInuga-FS%5D%20Hidan%20no%20Aria%20AA%20-%2001%20%5BTV%20720P%2060FPS%20X264%20AAC%5D%20%5BBC42E86D%5D.mp4",
+      image: "./data/cover_anime/upload_0344f2a951aebb6b966958c557c80951.jpg", // optionnal
+      title: 'World Trigger เวิลด์ ทริกเกอร์ 70',
+      mediaid: '50'
+    },
+    {
+      file: "https://c8379c8de7eca3a0ffb5fb4fbe0c343a266b1cba.googledrive.com/host/0B9OjzW_2GIRYM254cFJjcWxsdEk/Hidan no Aria AA/%5BInuga-FS%5D%20Hidan%20no%20Aria%20AA%20-%2001%20%5BTV%20720P%2060FPS%20X264%20AAC%5D%20%5BBC42E86D%5D.mp4",
+      image: "./data/cover_anime/upload_0344f2a951aebb6b966958c557c80951.jpg", // optionnal
+      title: 'World Trigger เวิลด์ ทริกเกอร์ 70',
+      mediaid: '51'
+    },
+    {
+      file: "https://c8379c8de7eca3a0ffb5fb4fbe0c343a266b1cba.googledrive.com/host/0B9OjzW_2GIRYM254cFJjcWxsdEk/Hidan no Aria AA/%5BInuga-FS%5D%20Hidan%20no%20Aria%20AA%20-%2001%20%5BTV%20720P%2060FPS%20X264%20AAC%5D%20%5BBC42E86D%5D.mp4",
+      image: "./data/cover_anime/upload_0344f2a951aebb6b966958c557c80951.jpg", // optionnal
+      title: 'World Trigger เวิลด์ ทริกเกอร์ 70',
+      mediaid: '52'
+    }]
+  }
+
 });
