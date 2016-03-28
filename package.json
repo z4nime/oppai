@@ -1,19 +1,19 @@
 {
   "name": "oppai",
   "version": "3.0.0",
-  "description": "Hello My Project *temp",
+  "description": "",
   "main": "gulpfile.js",
   "dependencies": {
     "body-parser": "^1.15.0",
-    "browser-sync": "^2.11.1",
     "connect-busboy": "^0.0.2",
     "express": "^4.13.4",
     "formidable": "^1.0.17",
     "fs-extra": "^0.26.5",
-    "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.0.6",
     "mysql": "^2.10.2",
-    "require-path": "^0.2.0"
+    "gulp": "^3.9.1",
+    "browser-sync": "^2.11.1",
+    "require-path": "^0.2.0",
+    "gulp-nodemon": "^2.0.6"
   },
   "devDependencies": {},
   "scripts": {
