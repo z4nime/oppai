@@ -231,7 +231,7 @@ app.controller('Backend', ['$scope' ,'$http' , '$state' , 'ipCookie' , function(
             $http.get('https://api.ipify.org?format=json')
             .success(function(ip){
               var temp = {"oppai_name":ipCookie("cookieLogin").oppai_name,
-              "action":"Login Backend By : "+data[0].oppai_name,
+              "action":"Used Backend By : "+data[0].oppai_name,
               "ip":ip.ip,
               "date_time":datetime};
               $http.post('/api/temp',temp)

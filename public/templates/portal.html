@@ -12,8 +12,13 @@
           <input type="password" class="form-control" ng-class="{'success' : passwordPass==true , 'err' : passwordPass==false , 'default' : passwordPass=='default'}" ng-model="data.password" placeholder="Password" required>
         </div>
         <div class="checkbox">
-          <label>
+          <!-- <label>
             <input type="checkbox" ng-checked="remember" ng-model="remember"><small> Remember </small>
+          </label> -->
+          <label class="checkbox" for="checkbox2">
+            <input type="checkbox" checked="checked" ng-model="remember" value="" id="checkbox2" data-toggle="checkbox" class="custom-checkbox">
+            <span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+            <small>&nbsp;&nbsp;Remember </small>
           </label>
         </div>
         <p class="text-center">
@@ -27,30 +32,31 @@
       <div ng-show="ctrl.userinfo" class="text-center">
         <img ng-src="{{ctrl.avatar}}" title="Hi ~~~~" class="img-thumbnail avatar">
         <p class="bg-primary">
-          <small><i class="ion-person"></i> {{ctrl.name}}</small>
+          <span class="fui-user"></span> {{ctrl.name}}
         </p>
         <p class="panal bg-success">
-          <a href="#/"><i class="ion-email" title="message"></i></a>
-          <a href="#/backend" ng-show="ctrl.admin >=4"><i class="ion-at" title="system"></i></a>
-          <a href="#/backend"><i class="ion-android-settings" title="config"></i></a>
+          <a href="#/"><span class="fui-mail" title="message"></span></a>
+          <a href="#/"><span class="fui-bookmark" title="bookmark"></span></a>
+          <a href="#/backend" ng-show="ctrl.admin >=4"><span class="fui-cmd" title="system"></span></a>
+          <a href="#/"><span class="fui-gear" title="config"></span></i></a>
         </p>
         <p>----- info ----</p>
         <p><i class="ion-heart"></i> 999 </p>
         <p><i class="ion-android-folder"></i> 999 </p>
         <p>----- pet -----</p>
-        <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="logout()">L o g o u t</button>
+        <button type="button" class="btn btn-block btn-xs btn-danger" ng-click="logout()"><span class="fui-exit"></span> Logout</button>
       </div>
 
       <hr>
       Anime Fall 2016
     </div>
     <div class="col-md-10 col-xs-10">
-      <h5 class="noti"><i class="ion-android-folder"></i> New Update Manga</h1>
+      <h5 class="noti"><span class="fui-folder"></span> New Update Manga</h1>
       <br> <br> <br> <br> <br> <br> <br> <br> 
-      <h5 class="noti"><i class="ion-android-folder"></i> New Update Anime</h1>
+      <h5 class="noti"><span class="fui-folder"></span> New Update Anime</h1>
       <br>
       <div ng-repeat="data in ctrl.anime | orderBy : 'update_time' | limitTo:5 " style="float:left">
-        <a ng-href="#/anime/{{data.anime_id}}" target="_blank" title="{{data.topic}}"><img class="img-thumbnail cover" title="{{data.topic}}" ng-src="{{data.cover_path}}"></a>
+        <a ng-href="#/anime/{{data.anime_id}}" title="{{data.topic}}"><img class="img-thumbnail cover" title="{{data.topic}}" ng-src="{{data.cover_path}}"></a>
         <!-- <p class="text-primary "><small>{{data.topic}}</small></p> -->
       </div>
       <div style="clear:both;"></div>

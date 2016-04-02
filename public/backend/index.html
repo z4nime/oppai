@@ -13,12 +13,13 @@
         <div style="padding:5px;">
           <h1 class="topic" ng-show="ctrl.anime_name"><i class="ion-chevron-left h_icon"></i><i class="ion-chevron-left h_icon"></i><i class="ion-chevron-left h_icon"></i><em> {{ctrl.anime_name}}</em></h1>
           <div class="input-group">
-            <span class="input-group-addon"><i id="icon_addon" class="ion-search"></i></span>
-            <input type="text" class="form-control" placeholder="search anime" ng-model="search_anime">
+            <!-- <input type="text" class="form-control" placeholder="search anime" ng-model="search_anime"> -->
+            <input class="todo-search-field" size="100" type="search" placeholder="search anime" ng-model="search_anime" autofocus>
+            <span><i id="icon_addon" class="ion-search"></i></span>
           </div>
           <div class="droplist" ng-if="search_anime">
             <div ng-repeat="data in ctrl.allAnime | filter: search_anime |  limitTo:5">
-              <p class="search_list primary" ng-click="ctrl.select_anime(data.anime_id,data.topic)"><i class="ion-folder"></i> {{data.topic}}</p>
+              <p class="search_list primary" ng-click="ctrl.select_anime(data.anime_id,data.topic)"><span class="fui-folder"></span> {{data.topic}}</p>
             </div>
           </div>
           <div ng-if="ctrl.showEpisode" class="text-right">
@@ -130,7 +131,7 @@
             <td>Date</td>
             <td>Time</td>
           </tr>
-          <tr ng-repeat="data in ctrl.data_temp | orderBy:'-date_time' | limitTo:ctrl.limit">
+          <tr ng-repeat="data in ctrl.data_temp | orderBy:['date','-date_time']| limitTo:ctrl.limit">
             <td>{{$index+1}}</td>
             <td>{{data.oppai_name}}</td>
             <td>{{data.action}}</td>
